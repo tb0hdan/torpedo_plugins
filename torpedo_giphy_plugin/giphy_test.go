@@ -1,1 +1,1 @@
-package main_test
+package torpedo_giphy_plugin
