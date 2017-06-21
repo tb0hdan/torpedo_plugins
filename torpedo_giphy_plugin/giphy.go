@@ -4,7 +4,6 @@ import (
 	"github.com/tb0hdan/torpedo_registry"
 	common "github.com/tb0hdan/torpedo_common"
 	"github.com/tb0hdan/torpedo_plugins/torpedo_giphy_plugin/giphy"
-	"torpedobot/multibot"
 )
 
 func GiphyProcessMessage(api *torpedo_registry.BotAPI, channel interface{}, incoming_message string) {
@@ -20,7 +19,7 @@ func GiphyProcessMessage(api *torpedo_registry.BotAPI, channel interface{}, inco
 		logger.Printf("Got command %s\n", command)
 		giphyResponse := client.GiphySearch(command)
 		if giphyResponse.Meta.Status == 200 {
-			richmsg = multibot.RichMessage{BarColor: "#36a64f",
+			richmsg = torpedo_registry.RichMessage{BarColor: "#36a64f",
 				Text:      command,
 				TitleLink: giphyResponse.Data[0].URL,
 				ImageURL:  giphyResponse.Data[0].Images.OriginalImage.URL}
