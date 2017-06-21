@@ -1,4 +1,4 @@
-package main
+package torpedo_giphy_plugin
 
 import (
 	"github.com/tb0hdan/torpedo_registry"
