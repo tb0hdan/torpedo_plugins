@@ -1,4 +1,4 @@
-package main
+package torpedo_steam_plugin
 
 import (
 	"fmt"
