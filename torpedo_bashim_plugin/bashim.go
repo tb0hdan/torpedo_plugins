@@ -50,6 +50,6 @@ func BashProcessMessage(api *torpedo_registry.BotAPI, channel interface{}, incom
 }
 
 func init() {
-	torpedo_registry.RegisterHandler("bashim", BashProcessMessage)
-	torpedo_registry.RegisterHelp("bashim", "Get http://bash.im random quote")
+	torpedo_registry.Config.RegisterHandler("bashim", BashProcessMessage)
+	torpedo_registry.Config.RegisterHelp("bashim", "Get http://bash.im random quote")
 }
