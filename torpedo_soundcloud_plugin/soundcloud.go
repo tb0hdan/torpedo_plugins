@@ -1,4 +1,4 @@
-package main
+package torpedo_soundcloud_plugin
 
 import (
 	"net/url"
