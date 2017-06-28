@@ -4,7 +4,7 @@ import (
 	"golang.org/x/net/html"
 
 	"fmt"
-	"github.com/tb0hdan/torpedo_bashorg_plugin/bashorg"
+	"github.com/tb0hdan/torpedo_plugins/torpedo_bashorg_plugin/bashorg"
 	"github.com/tb0hdan/torpedo_registry"
 )
 
