@@ -62,7 +62,7 @@ func GetXKCD(postId string, logger *log.Logger) (result XKCDResponse, err error)
 		log.Printf("json.Unmarshal => %v", err)
 		return
 	}
-	result.PostID = postId
+	result.PostID = strings.TrimSuffix(postId, "/")
 	return
 }
 
