@@ -7,7 +7,12 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/tb0hdan/torpedo_common/database"
+	"github.com/tb0hdan/torpedo_registry"
+
+
 	"golang.org/x/net/html"
+	"gopkg.in/mgo.v2/bson"
 )
 
 const SteamStoreURL = "http://store.steampowered.com/explore/new/"
@@ -16,6 +21,13 @@ func parsedURL(full_url string) (result string) {
 	parsed, _ := url.Parse(full_url)
 	result = fmt.Sprintf("%s://%s%s", parsed.Scheme, parsed.Host, parsed.Path)
 	return
+}
+
+type SteamUser struct {
+	SteamID string
+	PersonaName string
+	Friends []string
+	FriendsCrawled bool
 }
 
 func (cli *Client) SteamShowNew() (items []*GameItem) {
@@ -133,3 +145,20 @@ func (cli *Client) SteamShowNew() (items []*GameItem) {
 	return
 }
 
+func (cli *Client) SearchSteamUser(username, steamid string) (user *SteamUser, err error) {
+	var query bson.M
+	user = &SteamUser{}
+	db := database.New(torpedo_registry.Config.GetConfig()["mongo"], "steam")
+	session, collection, err := db.GetCollection("steam_user")
+	if err != nil {
+		return
+	}
+	defer session.Close()
+	if username != "" {
+		query = bson.M{"personaname": bson.RegEx{username, "i"}}
+	} else {
+		query = bson.M{"steamid": steamid}
+	}
+	err = collection.Find(query).One(user)
+	return
+}
