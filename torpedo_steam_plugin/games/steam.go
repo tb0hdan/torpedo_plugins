@@ -148,7 +148,7 @@ func (cli *Client) SteamShowNew() (items []*GameItem) {
 func (cli *Client) SearchSteamUser(username, steamid string) (user *SteamUser, err error) {
 	var query bson.M
 	user = &SteamUser{}
-	db := database.New(torpedo_registry.Config.GetConfig()["mongo"], "steam")
+	db := database.New(torpedo_registry.Config.GetConfig()["mongodb"], "steam")
 	session, collection, err := db.GetCollection("steam_user")
 	if err != nil {
 		return
