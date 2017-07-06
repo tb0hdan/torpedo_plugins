@@ -20,7 +20,11 @@ func SteamProcessMessage(api *torpedo_registry.BotAPI, channel interface{}, inco
 		if username == "" {
 			message = "Please provide username"
 		} else {
-			user, _ := client.SearchSteamUser(username, "")
+			user, err := client.SearchSteamUser(username, "")
+			if err != nil {
+				api.Bot.PostMessage(channel, fmt.Sprintf("User search failed with %+v\n", err) , api)
+				return
+			}
 			if user != nil {
 				message = fmt.Sprintf("Nickname: %s\n", user.PersonaName)
 				message += fmt.Sprintf("Steam ID: %s\n", user.SteamID)
@@ -33,7 +37,11 @@ func SteamProcessMessage(api *torpedo_registry.BotAPI, channel interface{}, inco
 		if steamid == "" {
 			message = "Please provide steam id"
 		} else {
-			user, _ := client.SearchSteamUser("", steamid)
+			user, err := client.SearchSteamUser("", steamid)
+			if err != nil {
+				api.Bot.PostMessage(channel, fmt.Sprintf("ID search failed with %+v\n", err) , api)
+				return
+			}
 			if user != nil {
 				message = fmt.Sprintf("Nickname: %s\n", user.PersonaName)
 				message += fmt.Sprintf("Steam ID: %s\n", user.SteamID)
