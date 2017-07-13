@@ -16,7 +16,7 @@ const (
 	CoubAPIBase         = "https://coub.com/api/v2"
 	CoubTimelineExplore = CoubAPIBase + "/timeline/explore/"
 	CoubsSearch         = CoubAPIBase + "/search/coubs"
-	TagsSearch          = CoubAPIBase + "/tags/search"
+	TagsSearch          = CoubAPIBase + "/timeline/tag/"
 )
 
 type Coub struct {
@@ -76,7 +76,7 @@ type Coub struct {
 	VideoBlockBanned     bool        `json:"video_block_banned"`      //": false,
 	Duration             float64     `json:"duration"`                //": 10,
 	PromoWinner          bool        `json:"promo_winner"`            //": false,
-	PromoWinnerRecoubers interface{}      `json:"promo_winner_recoubers"`  //": null,
+	PromoWinnerRecoubers interface{} `json:"promo_winner_recoubers"`  //": null,
 	TrackingPixelURL     string      `json:"tracking_pixel_url"`      //": null,
 	PromoHint            string      `json:"promo_hint"`              //": null,
 	BeelineBest2014      string      `json:"beeline_best_2014"`       //": null,
@@ -197,15 +197,46 @@ type CoubResponse struct {
 	Coubs      []Coub `json:"coubs"`
 }
 
-type CoubTagsResponse struct {
-	ID int `json:"id"`
-	Title string `json:"title"`
-	Value string `json:"value"`
+type CoubClient struct {
+	cu     *common.Utils
+	logger *log.Logger
 }
 
-func GetCoub(command string, logger *log.Logger) (result string, err error) {
+func (cc *CoubClient) ParseBigCoub(request_url string) (result string) {
+	coubresponse := CoubResponse{}
+
+	err := cc.cu.GetURLUnmarshal(request_url, &coubresponse)
+	if err != nil {
+		result = fmt.Sprintf("%+v\n", err)
+
+	}
+	coub := coubresponse.Coubs[0]
+	template := coub.FileVersions.Web.Template
+	vtype := ""
+	vsize := ""
+	for _, name := range coub.FileVersions.Web.Types {
+		if name == "mp4" {
+			vtype = name
+			break
+		}
+	}
+	for _, name := range coub.FileVersions.Web.Versions {
+		if name == "big" {
+			vsize = name
+			break
+		}
+	}
+	if vtype != "" && vsize != "" {
+		result = strings.Replace(template, `%{type}`, vtype, -1)
+		result = strings.Replace(result, `%{version}`, vsize, -1)
+	} else {
+		result = "No usable formats available"
+	}
+	return
+}
+
+func (cc *CoubClient) GetCoub(command string) (result string, err error) {
 	var request_url string
-	cu := &common.Utils{}
 	command = strings.TrimSpace(command)
 	switch strings.Split(command, " ")[0] {
 	case "random":
@@ -217,7 +248,7 @@ func GetCoub(command string, logger *log.Logger) (result string, err error) {
 	case "tag":
 		if len(strings.Split(command, " ")) >= 2 {
 			query := strings.TrimSpace(strings.TrimPrefix(command, "tag"))
-			request_url = TagsSearch + fmt.Sprintf("?title=%s", url.QueryEscape(query))
+			request_url = TagsSearch + fmt.Sprintf("%s?order_by=newest_popular&page=1", url.QueryEscape(query))
 		} else {
 			result = fmt.Sprintf("tag requires string argument")
 		}
@@ -236,32 +267,8 @@ func GetCoub(command string, logger *log.Logger) (result string, err error) {
 			result = "Usage: coub [random|newest|dujour|search|tag]"
 		}
 	} else {
-		coubresponse := CoubResponse{}
-		err = cu.GetURLUnmarshal(request_url, &coubresponse)
-		if err == nil {
-			coub := coubresponse.Coubs[0]
-			template := coub.FileVersions.Web.Template
-			vtype := ""
-			vsize := ""
-			for _, name := range coub.FileVersions.Web.Types {
-				if name == "mp4" {
-					vtype = name
-					break
-				}
-			}
-			for _, name := range coub.FileVersions.Web.Versions {
-				if name == "big" {
-					vsize = name
-					break
-				}
-			}
-			if vtype != "" && vsize != "" {
-				result = strings.Replace(template, `%{type}`, vtype, -1)
-				result = strings.Replace(result, `%{version}`, vsize, -1)
-			} else {
-				result = "No usable formats available"
-			}
-		}
+		cc.logger.Printf(request_url)
+		result = cc.ParseBigCoub(request_url)
 	}
 	return
 }
@@ -271,7 +278,8 @@ func CoubProcessMessage(api *torpedo_registry.BotAPI, channel interface{}, incom
 	cu := &common.Utils{}
 	logger := cu.NewLog("coub-process-message")
 	_, command, _ := common.GetRequestedFeature(incoming_message)
-	message, err := GetCoub(command, logger)
+	client := &CoubClient{cu: cu, logger: logger}
+	message, err := client.GetCoub(command)
 	if err != nil {
 		message = fmt.Sprintf("An error occured while processing Coub request: %+v\n", err)
 	}
