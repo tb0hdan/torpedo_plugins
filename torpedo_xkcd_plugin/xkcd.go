@@ -82,6 +82,5 @@ func XKCDProcessMessage(api *torpedo_registry.BotAPI, channel interface{}, incom
 }
 
 func init() {
-	torpedo_registry.Config.RegisterHandler("xkcd", XKCDProcessMessage)
-	torpedo_registry.Config.RegisterHelp("xkcd", "Get XKCD random strip. Provide integer ID to get specific one.")
+	torpedo_registry.Config.RegisterHelpAndHandler("xkcd", "Get XKCD random strip. Provide integer ID to get specific one.", XKCDProcessMessage)
 }

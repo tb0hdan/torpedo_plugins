@@ -32,7 +32,6 @@ func GiphyProcessMessage(api *torpedo_registry.BotAPI, channel interface{}, inco
 }
 
 func init() {
-	torpedo_registry.Config.RegisterHandler("giphy", GiphyProcessMessage)
-	torpedo_registry.Config.RegisterHelp("giphy", "Get Giphy.com image")
+	torpedo_registry.Config.RegisterHelpAndHandler("giphy", "Get Giphy.com image", GiphyProcessMessage)
 }
 

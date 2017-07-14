@@ -31,6 +31,5 @@ func WikiProcessMessage(api *torpedo_registry.BotAPI, channel interface{}, incom
 }
 
 func init() {
-	torpedo_registry.Config.RegisterHandler("wiki", WikiProcessMessage)
-	torpedo_registry.Config.RegisterHelp("wiki", "Get article excerpt from Wikipedia.org")
+	torpedo_registry.Config.RegisterHelpAndHandler("wiki", "Get article excerpt from Wikipedia.org", WikiProcessMessage)
 }

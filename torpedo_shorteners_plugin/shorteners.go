@@ -73,20 +73,12 @@ func CryptoProcessMessage(api *torpedo_registry.BotAPI, channel interface{}, inc
 }
 
 func init() {
-	torpedo_registry.Config.RegisterHandler("qr", QREncoderProcessMessage)
-	torpedo_registry.Config.RegisterHelp("qr", "Create QR Code from URL")
-	torpedo_registry.Config.RegisterHandler("tinyurl", TinyURLProcessMessage)
-	torpedo_registry.Config.RegisterHelp("tinyurl",  "Shorten URL using TinyURL.com")
-	torpedo_registry.Config.RegisterHandler("b64e", CryptoProcessMessage)
-	torpedo_registry.Config.RegisterHelp("b64e",  "Base64 encode")
-	torpedo_registry.Config.RegisterHandler("b64d", CryptoProcessMessage)
-	torpedo_registry.Config.RegisterHelp("b64d",  "Base64 decode")
-	torpedo_registry.Config.RegisterHandler("md5", CryptoProcessMessage)
-	torpedo_registry.Config.RegisterHelp("md5",  "Calculate message MD5 sum")
-	torpedo_registry.Config.RegisterHandler("sha1", CryptoProcessMessage)
-	torpedo_registry.Config.RegisterHelp("sha1", "Calculate message SHA1 sum")
-	torpedo_registry.Config.RegisterHandler("sha256", CryptoProcessMessage)
-	torpedo_registry.Config.RegisterHelp("sha256", "Calculate message SHA256 sum")
-	torpedo_registry.Config.RegisterHandler("sha512", CryptoProcessMessage)
-	torpedo_registry.Config.RegisterHelp("sha512", "Calculate message SHA512 sum")
+	torpedo_registry.Config.RegisterHelpAndHandler("qr", "Create QR Code from URL", QREncoderProcessMessage)
+	torpedo_registry.Config.RegisterHelpAndHandler("tinyurl",  "Shorten URL using TinyURL.com", TinyURLProcessMessage)
+	torpedo_registry.Config.RegisterHelpAndHandler("b64e", "Base64 encode", CryptoProcessMessage)
+	torpedo_registry.Config.RegisterHelpAndHandler("b64d", "Base64 decode", CryptoProcessMessage)
+	torpedo_registry.Config.RegisterHelpAndHandler("md5",  "Calculate message MD5 sum", CryptoProcessMessage)
+	torpedo_registry.Config.RegisterHelpAndHandler("sha1", "Calculate message SHA1 sum", CryptoProcessMessage)
+	torpedo_registry.Config.RegisterHelpAndHandler("sha256","Calculate message SHA256 sum", CryptoProcessMessage)
+	torpedo_registry.Config.RegisterHelpAndHandler("sha512", "Calculate message SHA512 sum", CryptoProcessMessage)
 }

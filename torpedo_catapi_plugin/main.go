@@ -65,8 +65,6 @@ func CatAPIProcessMessage(api *torpedo_registry.BotAPI, channel interface{}, inc
 }
 
 func init() {
-	torpedo_registry.Config.RegisterHandler("catapi", CatAPIProcessMessage)
-	torpedo_registry.Config.RegisterHelp("catapi", "Get http://thecatapi.com random cat picture")
-	torpedo_registry.Config.RegisterPreParser("catapi", ConfigureCatAPIPlugin)
-	torpedo_registry.Config.RegisterPostParser("catapi", ParseCatAPIPlugin)
+	torpedo_registry.Config.RegisterHelpAndHandler("catapi", "Get http://thecatapi.com random cat picture", CatAPIProcessMessage)
+	torpedo_registry.Config.RegisterParser("catapi", ConfigureCatAPIPlugin, ParseCatAPIPlugin)
 }

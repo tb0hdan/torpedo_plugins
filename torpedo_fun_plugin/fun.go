@@ -49,18 +49,11 @@ func FunProcessMessage(api *torpedo_registry.BotAPI, channel interface{}, incomi
 
 
 func init() {
-	torpedo_registry.Config.RegisterHandler("sudo", FunProcessMessage)
-	torpedo_registry.Config.RegisterHelp("sudo", "Run sudo on this machine")
-	torpedo_registry.Config.RegisterHandler("rm", FunProcessMessage)
-	torpedo_registry.Config.RegisterHelp("rm", "Remove files on this machine")
-	torpedo_registry.Config.RegisterHandler("shutdown", FunProcessMessage)
-	torpedo_registry.Config.RegisterHelp("shutdown", "Shutdown this machine for good")
-	torpedo_registry.Config.RegisterHandler("halt", FunProcessMessage)
-	torpedo_registry.Config.RegisterHelp("halt", "Halt this machine for good")
-	torpedo_registry.Config.RegisterHandler("reboot", FunProcessMessage)
-	torpedo_registry.Config.RegisterHelp("reboot", "Reboot this machine")
-	torpedo_registry.Config.RegisterHandler("poweroff", FunProcessMessage)
-	torpedo_registry.Config.RegisterHelp("poweroff", "Power off this machine")
-	torpedo_registry.Config.RegisterHandler("kill", FunProcessMessage)
-	torpedo_registry.Config.RegisterHelp("kill", "Terminate any process running on this machine")
+	torpedo_registry.Config.RegisterHelpAndHandler("sudo", "Run sudo on this machine", FunProcessMessage)
+	torpedo_registry.Config.RegisterHelpAndHandler("rm", "Remove files on this machine", FunProcessMessage)
+	torpedo_registry.Config.RegisterHelpAndHandler("shutdown", "Shutdown this machine for good", FunProcessMessage)
+	torpedo_registry.Config.RegisterHelpAndHandler("halt",  "Halt this machine for good", FunProcessMessage)
+	torpedo_registry.Config.RegisterHelpAndHandler("reboot", "Reboot this machine", FunProcessMessage)
+	torpedo_registry.Config.RegisterHelpAndHandler("poweroff",  "Power off this machine", FunProcessMessage)
+	torpedo_registry.Config.RegisterHelpAndHandler("kill",  "Terminate any process running on this machine", FunProcessMessage)
 }

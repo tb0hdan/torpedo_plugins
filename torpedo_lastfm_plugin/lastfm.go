@@ -155,8 +155,6 @@ func LastFmProcessMessage(api *torpedo_registry.BotAPI, channel interface{}, inc
 }
 
 func init() {
-	torpedo_registry.Config.RegisterHandler("lastfm", LastFmProcessMessage)
-	torpedo_registry.Config.RegisterHelp("lastfm", "Query Last.FM for artist, tag, user")
-	torpedo_registry.Config.RegisterPreParser("lastfm", ConfigureLastFmPlugin)
-	torpedo_registry.Config.RegisterPostParser("lastfm", ParseLastFmPlugin)
+	torpedo_registry.Config.RegisterHelpAndHandler("lastfm", "Query Last.FM for artist, tag, user", LastFmProcessMessage)
+	torpedo_registry.Config.RegisterParser("lastfm", ConfigureLastFmPlugin, ParseLastFmPlugin)
 }

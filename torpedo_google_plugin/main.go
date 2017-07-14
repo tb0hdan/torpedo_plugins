@@ -21,10 +21,7 @@ func ParseGooglePlugin(cfg *torpedo_registry.ConfigStruct) {
 }
 
 func init() {
-	torpedo_registry.Config.RegisterHandler("youtube", YoutubeProcessMessage)
-	torpedo_registry.Config.RegisterHelp("youtube", "Get Youtube.com URL for specified track")
-	torpedo_registry.Config.RegisterHandler("distance", DistanceProcessMessage)
-	torpedo_registry.Config.RegisterHelp("distance", "Get driving distance between cities")
-	torpedo_registry.Config.RegisterPreParser("googlewebapp", ConfigureGooglePlugin)
-	torpedo_registry.Config.RegisterPostParser("googlewebapp", ParseGooglePlugin)
+	torpedo_registry.Config.RegisterHelpAndHandler("youtube", "Get Youtube.com URL for specified track", YoutubeProcessMessage)
+	torpedo_registry.Config.RegisterHelpAndHandler("distance",  "Get driving distance between cities", DistanceProcessMessage)
+	torpedo_registry.Config.RegisterParser("googlewebapp", ConfigureGooglePlugin, ParseGooglePlugin)
 }

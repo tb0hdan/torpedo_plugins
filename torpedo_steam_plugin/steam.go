@@ -64,6 +64,5 @@ func SteamProcessMessage(api *torpedo_registry.BotAPI, channel interface{}, inco
 }
 
 func init() {
-	torpedo_registry.Config.RegisterHandler("steam", SteamProcessMessage)
-	torpedo_registry.Config.RegisterHelp("steam", HelpMessage)
+	torpedo_registry.Config.RegisterHelpAndHandler("steam", HelpMessage, SteamProcessMessage)
 }

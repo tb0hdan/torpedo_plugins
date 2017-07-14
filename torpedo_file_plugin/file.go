@@ -72,14 +72,9 @@ func GetSetImageProcessMessage(api *torpedo_registry.BotAPI, channel_i interface
 }
 
 func init() {
-	torpedo_registry.Config.RegisterHandler("getimg", GetSetImageProcessMessage)
-	torpedo_registry.Config.RegisterHelp("getimg", "Get stored image for this channel")
-	torpedo_registry.Config.RegisterHandler("lsimg", GetSetImageProcessMessage)
-	torpedo_registry.Config.RegisterHelp("lsimg", "List stored images for this channel")
-	torpedo_registry.Config.RegisterHandler("listimg", GetSetImageProcessMessage)
-	torpedo_registry.Config.RegisterHelp("listimg", "List stored images for this channel")
-	torpedo_registry.Config.RegisterHandler("setimg", GetSetImageProcessMessage)
-	torpedo_registry.Config.RegisterHelp("setimg", "Set stored image for this channel")
-	torpedo_registry.Config.RegisterHandler("rmimg", GetSetImageProcessMessage)
-	torpedo_registry.Config.RegisterHelp("rmimg", "Remove stored image for this channel")
+	torpedo_registry.Config.RegisterHelpAndHandler("getimg", "Get stored image for this channel", GetSetImageProcessMessage)
+	torpedo_registry.Config.RegisterHelpAndHandler("lsimg", "List stored images for this channel", GetSetImageProcessMessage)
+	torpedo_registry.Config.RegisterHelpAndHandler("listimg",  "List stored images for this channel", GetSetImageProcessMessage)
+	torpedo_registry.Config.RegisterHelpAndHandler("setimg", "Set stored image for this channel", GetSetImageProcessMessage)
+	torpedo_registry.Config.RegisterHelpAndHandler("rmimg", "Remove stored image for this channel", GetSetImageProcessMessage)
 }

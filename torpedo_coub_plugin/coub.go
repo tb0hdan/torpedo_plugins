@@ -288,6 +288,5 @@ func CoubProcessMessage(api *torpedo_registry.BotAPI, channel interface{}, incom
 }
 
 func init() {
-	torpedo_registry.Config.RegisterHandler("coub", CoubProcessMessage)
-	torpedo_registry.Config.RegisterHelp("coub", "Get Coub.")
+	torpedo_registry.Config.RegisterHelpAndHandler("coub", "Get Coub.", CoubProcessMessage)
 }

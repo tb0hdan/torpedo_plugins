@@ -109,10 +109,7 @@ func SoundCloudProcessMessage(api *torpedo_registry.BotAPI, channel interface{},
 
 func init() {
 	helpmsg :=  "Search for track on SoundCloud"
-	torpedo_registry.Config.RegisterHandler("soundcloud", SoundCloudProcessMessage)
-	torpedo_registry.Config.RegisterHelp("soundcloud", helpmsg)
-	torpedo_registry.Config.RegisterHandler("sc", SoundCloudProcessMessage)
-	torpedo_registry.Config.RegisterHelp("sc", helpmsg)
-	torpedo_registry.Config.RegisterPreParser("soundcloud", ConfigureSoundCloudPlugin)
-	torpedo_registry.Config.RegisterPostParser("soundcloud", ParseSoundCloudPlugin)
+	torpedo_registry.Config.RegisterHelpAndHandler("soundcloud", helpmsg, SoundCloudProcessMessage)
+	torpedo_registry.Config.RegisterHelpAndHandler("sc", helpmsg, SoundCloudProcessMessage)
+	torpedo_registry.Config.RegisterParser("soundcloud", ConfigureSoundCloudPlugin, ParseSoundCloudPlugin)
 }

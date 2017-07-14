@@ -58,8 +58,6 @@ func PinterestProcessMessage(api *torpedo_registry.BotAPI, channel interface{}, 
 }
 
 func init() {
-	torpedo_registry.Config.RegisterHandler("pinterest", PinterestProcessMessage)
-	torpedo_registry.Config.RegisterHelp("pinterest", "Get pinterest picture from specific board")
-	torpedo_registry.Config.RegisterPreParser("pinterest", ConfigurePinterestPlugin)
-	torpedo_registry.Config.RegisterPostParser("pinterest", ParsePinterestPlugin)
+	torpedo_registry.Config.RegisterHelpAndHandler("pinterest", "Get pinterest picture from specific board", PinterestProcessMessage)
+	torpedo_registry.Config.RegisterParser("pinterest", ConfigurePinterestPlugin, ParsePinterestPlugin)
 }

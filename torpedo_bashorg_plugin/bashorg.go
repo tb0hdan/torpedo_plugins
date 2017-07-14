@@ -50,6 +50,5 @@ func BashOrgProcessMessage(api *torpedo_registry.BotAPI, channel interface{}, in
 }
 
 func init() {
-	torpedo_registry.Config.RegisterHandler("bashorg", BashOrgProcessMessage)
-	torpedo_registry.Config.RegisterHelp("bashorg", "Get http://bash.org random quote")
+	torpedo_registry.Config.RegisterHelpAndHandler("bashorg", "Get http://bash.org random quote", BashOrgProcessMessage)
 }

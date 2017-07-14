@@ -33,8 +33,6 @@ func StackOverflowProcessMessage(api *torpedo_registry.BotAPI, channel interface
 
 func init() {
 	helpmsg := "Search for solution on StackOverflow.com"
-	torpedo_registry.Config.RegisterHandler("so", StackOverflowProcessMessage)
-	torpedo_registry.Config.RegisterHelp("so", helpmsg)
-	torpedo_registry.Config.RegisterHandler("stackoverflow", StackOverflowProcessMessage)
-	torpedo_registry.Config.RegisterHelp("stackoverflow", helpmsg)
+	torpedo_registry.Config.RegisterHelpAndHandler("so", helpmsg, StackOverflowProcessMessage)
+	torpedo_registry.Config.RegisterHelpAndHandler("stackoverflow", helpmsg, StackOverflowProcessMessage)
 }
