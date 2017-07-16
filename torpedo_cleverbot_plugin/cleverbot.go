@@ -52,6 +52,7 @@ func (wp *WorkerPool) worker(wid string, jobs <-chan ChannelItem) {
 	for job := range jobs {
 		answer, err := session.Ask(job.Message)
 		if err == nil {
+			wp.Logger.Printf("Req/Resp: `%s` -> `%s`", job.Message, answer)
 			job.API.Bot.PostMessage(job.ChannelID, answer, job.API)
 		} else {
 			wp.Logger.Printf("Error in CleverBot worker: %+v\n", err)
@@ -67,7 +68,8 @@ func CleverBotBackgroundTask(cfg *torpedo_registry.ConfigStruct) {
 }
 
 func CleverBotProcessMessage(api *torpedo_registry.BotAPI, channel interface{}, incoming_message string) {
-	channelItem := ChannelItem{api, channel, incoming_message}
+	_, command, _ := common.GetRequestedFeature(incoming_message)
+	channelItem := ChannelItem{api, channel, command}
 	Jobs <- channelItem
 	return
 }
