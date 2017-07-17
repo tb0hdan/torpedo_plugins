@@ -4,19 +4,23 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"math/rand"
+	"net/url"
 	"strings"
 
-	"net/url"
+	"time"
 
 	common "github.com/tb0hdan/torpedo_common"
 	"github.com/tb0hdan/torpedo_registry"
 )
 
 const (
-	CoubAPIBase         = "https://coub.com/api/v2"
+	CoubBase			= "https://coub.com"
+	CoubAPIBase         = CoubBase + "/api/v2"
 	CoubTimelineExplore = CoubAPIBase + "/timeline/explore/"
 	CoubsSearch         = CoubAPIBase + "/search/coubs"
 	TagsSearch          = CoubAPIBase + "/timeline/tag/"
+	CoubView			= CoubBase + "/view/"
 )
 
 type Coub struct {
@@ -210,28 +214,31 @@ func (cc *CoubClient) ParseBigCoub(request_url string) (result string) {
 		result = fmt.Sprintf("%+v\n", err)
 
 	}
-	coub := coubresponse.Coubs[0]
-	template := coub.FileVersions.Web.Template
-	vtype := ""
-	vsize := ""
-	for _, name := range coub.FileVersions.Web.Types {
-		if name == "mp4" {
-			vtype = name
-			break
+	rand.Seed(time.Now().Unix())
+	coub := coubresponse.Coubs[rand.Intn(len(coubresponse.Coubs))]
+	result = fmt.Sprintf("%s%s", CoubView, coub.Permalink)
+	/*
+		template := coub.FileVersions.Web.Template
+		vtype := ""
+		vsize := ""
+		for _, name := range coub.FileVersions.Web.Types {
+			if name == "mp4" {
+				vtype = name
+				break
+			}
 		}
-	}
-	for _, name := range coub.FileVersions.Web.Versions {
-		if name == "big" {
-			vsize = name
-			break
+		for _, name := range coub.FileVersions.Web.Versions {
+			if name == "big" {
+				vsize = name
+				break
+			}
 		}
-	}
-	if vtype != "" && vsize != "" {
-		result = strings.Replace(template, `%{type}`, vtype, -1)
-		result = strings.Replace(result, `%{version}`, vsize, -1)
-	} else {
-		result = "No usable formats available"
-	}
+		if vtype != "" && vsize != "" {
+			result = strings.Replace(template, `%{type}`, vtype, -1)
+			result = strings.Replace(result, `%{version}`, vsize, -1)
+		} else {
+			result = "No usable formats available"
+		}*/
 	return
 }
 
