@@ -6,8 +6,8 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/tb0hdan/torpedo_registry"
 	common "github.com/tb0hdan/torpedo_common"
+	"github.com/tb0hdan/torpedo_registry"
 )
 
 func QREncoderProcessMessage(api *torpedo_registry.BotAPI, channel interface{}, incoming_message string) {
@@ -73,12 +73,15 @@ func CryptoProcessMessage(api *torpedo_registry.BotAPI, channel interface{}, inc
 }
 
 func init() {
+	fb_msg := "Convert FB embed to post URL"
+	torpedo_registry.Config.RegisterHelpAndHandler("f2p", fb_msg, FB2ProcessMessage)
+	torpedo_registry.Config.RegisterHelpAndHandler("fb2post", fb_msg, FB2ProcessMessage)
 	torpedo_registry.Config.RegisterHelpAndHandler("qr", "Create QR Code from URL", QREncoderProcessMessage)
-	torpedo_registry.Config.RegisterHelpAndHandler("tinyurl",  "Shorten URL using TinyURL.com", TinyURLProcessMessage)
+	torpedo_registry.Config.RegisterHelpAndHandler("tinyurl", "Shorten URL using TinyURL.com", TinyURLProcessMessage)
 	torpedo_registry.Config.RegisterHelpAndHandler("b64e", "Base64 encode", CryptoProcessMessage)
 	torpedo_registry.Config.RegisterHelpAndHandler("b64d", "Base64 decode", CryptoProcessMessage)
-	torpedo_registry.Config.RegisterHelpAndHandler("md5",  "Calculate message MD5 sum", CryptoProcessMessage)
+	torpedo_registry.Config.RegisterHelpAndHandler("md5", "Calculate message MD5 sum", CryptoProcessMessage)
 	torpedo_registry.Config.RegisterHelpAndHandler("sha1", "Calculate message SHA1 sum", CryptoProcessMessage)
-	torpedo_registry.Config.RegisterHelpAndHandler("sha256","Calculate message SHA256 sum", CryptoProcessMessage)
+	torpedo_registry.Config.RegisterHelpAndHandler("sha256", "Calculate message SHA256 sum", CryptoProcessMessage)
 	torpedo_registry.Config.RegisterHelpAndHandler("sha512", "Calculate message SHA512 sum", CryptoProcessMessage)
 }
