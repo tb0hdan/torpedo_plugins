@@ -10,7 +10,6 @@ import (
 	"github.com/tb0hdan/torpedo_common/database"
 	"github.com/tb0hdan/torpedo_registry"
 
-
 	"golang.org/x/net/html"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -24,9 +23,9 @@ func parsedURL(full_url string) (result string) {
 }
 
 type SteamUser struct {
-	SteamID string
-	PersonaName string
-	Friends []string
+	SteamID        string
+	PersonaName    string
+	Friends        []string
 	FriendsCrawled bool
 }
 
@@ -148,9 +147,9 @@ func (cli *Client) SteamShowNew() (items []*GameItem) {
 func (cli *Client) SearchSteamUser(username, steamid string) (user *SteamUser, err error) {
 	var query bson.M
 	user = &SteamUser{}
-	server := torpedo_registry.Config.GetConfig()["mongo"]
-	cli.logger.Printf("torpedo_steam_plugin DB Host: %s", server)
-	db := database.New(server, "steam")
+	db_uri := torpedo_registry.Config.GetConfig()["mongo"]
+	cli.logger.Printf("torpedo_steam_plugin DB URI: %s", db_uri)
+	db := database.New(db_uri, "steam")
 	session, collection, err := db.GetCollection("steam_user")
 	if err != nil {
 		return
