@@ -74,6 +74,14 @@ func CleverBotProcessMessage(api *torpedo_registry.BotAPI, channel interface{}, 
 	return
 }
 
+func CleverBotProcessTextMessage(api *torpedo_registry.BotAPI, channel interface{}, incoming_message string) {
+	if torpedo_registry.Config.GetConfig()["cleverbot"] != "" {
+		channelItem := ChannelItem{api, channel, incoming_message}
+		Jobs <- channelItem
+	}
+	return
+}
+
 func CleverBotPreParser(cfg *torpedo_registry.ConfigStruct) {
 	CleverBotAPIKey = flag.String("cleverbot", "", "CleverBot.com API Key")
 
@@ -94,4 +102,5 @@ func init() {
 	torpedo_registry.Config.RegisterParser("talk", CleverBotPreParser, CleverBotPostParser)
 	torpedo_registry.Config.RegisterHelpAndHandler("talk", "Say something to bot.", CleverBotProcessMessage)
 	torpedo_registry.Config.RegisterCoroutine("talk", CleverBotBackgroundTask)
+	torpedo_registry.Config.RegisterTextMessageHandler("talk", CleverBotProcessTextMessage)
 }
