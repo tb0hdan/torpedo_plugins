@@ -47,7 +47,7 @@ func PBProcessMessage(api *torpedo_registry.BotAPI, channel interface{}, incomin
 	} else {
 		for _, item := range result {
 			if item.Currency == strings.ToUpper(command) {
-				reply = fmt.Sprintf("Buy/Sale: %s/%s UAH", item.PurchaseRate, item.SaleRate)
+				reply = fmt.Sprintf("Buy/Sale: %s/%s %s\n", item.PurchaseRate, item.SaleRate, item.BaseCurrency)
 			}
 		}
 	}
