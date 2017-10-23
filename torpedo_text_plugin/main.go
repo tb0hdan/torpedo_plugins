@@ -8,7 +8,7 @@ import (
 
 func TextProcessMessage(api *torpedo_registry.BotAPI, channel interface{}, incoming_message string) {
 	if strings.HasPrefix("hola", incoming_message) {
-		api.Bot.PostMessage(channel, "buenos dia", api)
+		api.Bot.PostMessage(channel, "buenos dias", api)
 	}
 }
 
