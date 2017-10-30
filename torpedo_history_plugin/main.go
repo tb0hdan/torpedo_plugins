@@ -1,4 +1,4 @@
-package torpedo_history_plugin
+ package torpedo_history_plugin
 
 import (
 	"errors"
@@ -13,6 +13,7 @@ import (
 	"github.com/tb0hdan/torpedo_common/database"
 	"github.com/tb0hdan/torpedo_registry"
 	"regexp"
+	"sort"
 )
 
 type SearchOption struct {
@@ -24,6 +25,12 @@ type SearchOption struct {
 	After int
 	Query string
 }
+
+type ByTimestamp []torpedo_registry.MessageHistoryItem
+
+func (a ByTimestamp) Len() int           { return len(a) }
+func (a ByTimestamp) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+func (a ByTimestamp) Less(i, j int) bool { return a[i].Timestamp < a[j].Timestamp }
 
 
 func (so *SearchOption) Parse(str string) (err error){
@@ -83,6 +90,12 @@ func (so *SearchOption) Parse(str string) (err error){
 	return
 }
 
+func AppendMsgReply(incoming []torpedo_registry.MessageHistoryItem) (reply string) {
+	for _, msgitem := range incoming {
+		reply += fmt.Sprintf("%s - %s: %s\n", time.Unix(msgitem.Timestamp, 0).String(), msgitem.Nick, msgitem.Message)
+	}
+	return
+}
 
 func RunHistorySearch(channel, pattern string) (reply string) {
 	var query bson.M
@@ -109,8 +122,21 @@ func RunHistorySearch(channel, pattern string) (reply string) {
 		err = collection.Find(query).Limit(so.Limit).All(&result)
 	}
 
-	for _, msgitem := range result {
-		reply += fmt.Sprintf("%s - %s: %s\n", time.Unix(msgitem.Timestamp, 0).String(), msgitem.Nick, msgitem.Message)
+	if len(result) > 0 && so.Before > 0 {
+		before := []torpedo_registry.MessageHistoryItem{}
+		query = bson.M{"_id": bson.M{"$lt": result[0].ID}}
+		err = collection.Find(query).Sort("-_id").Limit(so.Before).All(&before)
+		sort.Sort(ByTimestamp(before))
+		reply += AppendMsgReply(before)
+	}
+
+	reply += AppendMsgReply(result)
+
+	if len(result) > 0 && so.After > 0 {
+		after := []torpedo_registry.MessageHistoryItem{}
+		query = bson.M{"_id": bson.M{"$gt": result[len(result) - 1].ID}}
+		err = collection.Find(query).Sort("_id").Limit(so.After).All(&after)
+		reply += AppendMsgReply(after)
 	}
 
 	if reply == "" {
