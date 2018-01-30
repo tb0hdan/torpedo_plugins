@@ -3,7 +3,7 @@ package torpedo_cleverbot_plugin
 import (
 	"flag"
 	"fmt"
-	"log"
+	log "github.com/sirupsen/logrus"
 
 	common "github.com/tb0hdan/torpedo_common"
 	"github.com/tb0hdan/torpedo_registry"

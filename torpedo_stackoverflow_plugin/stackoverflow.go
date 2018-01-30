@@ -2,7 +2,7 @@ package torpedo_stackoverflow_plugin
 
 import (
 	"fmt"
-	"log"
+	log "github.com/sirupsen/logrus"
 
 	"github.com/tb0hdan/torpedo_plugins/torpedo_stackoverflow_plugin/stackoverflow"
 

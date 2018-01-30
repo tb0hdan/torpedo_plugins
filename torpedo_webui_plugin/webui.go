@@ -7,7 +7,7 @@ import (
 
 	_ "github.com/mattn/go-sqlite3"
 
-	"log"
+	log "github.com/sirupsen/logrus"
 	"strconv"
 
 	"github.com/jinzhu/gorm"

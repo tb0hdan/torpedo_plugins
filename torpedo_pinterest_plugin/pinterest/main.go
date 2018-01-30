@@ -9,7 +9,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strings"
-	"log"
+	log "github.com/sirupsen/logrus"
 
 	common "github.com/tb0hdan/torpedo_common"
 )

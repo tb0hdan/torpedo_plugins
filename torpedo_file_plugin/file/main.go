@@ -4,7 +4,7 @@ import (
 	"encoding/base64"
 	"fmt"
 	"io/ioutil"
-	"log"
+	log "github.com/sirupsen/logrus"
 	"os"
 	"strings"
 
@@ -49,7 +49,7 @@ func GetChannelFile(channel, message string) (channelFile, mimetype string, err 
 
 func SetChannelFile(channel, message, commandPrefix string) (result string, err error) {
 	cu := &common.Utils{}
-	cu.SetLogger(log.New(os.Stdout, "file-plugin: ", log.Lshortfile|log.LstdFlags))
+	cu.SetLogger(log.New()) //os.Stdout, "file-plugin: ", log.Lshortfile|log.LstdFlags))
 	wd, err := GetCreateChannelDir(channel)
 	if err != nil {
 		return

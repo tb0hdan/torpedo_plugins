@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"io"
 	"io/ioutil"
-	"log"
+	log "github.com/sirupsen/logrus"
 
 	common "github.com/tb0hdan/torpedo_common"
 

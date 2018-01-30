@@ -2,7 +2,7 @@ package bashorg
 
 import (
 	"bytes"
-	"log"
+	log "github.com/sirupsen/logrus"
 
 	common "github.com/tb0hdan/torpedo_common"
 

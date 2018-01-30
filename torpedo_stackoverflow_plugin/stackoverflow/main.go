@@ -3,7 +3,7 @@ package stackoverflow
 import (
 	"bytes"
 	"fmt"
-	"log"
+	log "github.com/sirupsen/logrus"
 	"net/url"
 
 	common "github.com/tb0hdan/torpedo_common"

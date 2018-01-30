@@ -3,7 +3,7 @@ package torpedo_coub_plugin
 import (
 	"errors"
 	"fmt"
-	"log"
+	log "github.com/sirupsen/logrus"
 	"math/rand"
 	"net/url"
 	"strings"
