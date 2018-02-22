@@ -15,6 +15,9 @@ func ForwarderProcessTextMessage(api *torpedo_registry.BotAPI, channel interface
 		return
 	}
 	account := torpedo_registry.Accounts.GetAccountByAPIKey(apiKey)
+	if account == nil {
+		return
+	}
 	switch capi := account.API.(type) {
 	case *slack.Client:
 		params := slack.PostMessageParameters{}
