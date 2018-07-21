@@ -8,7 +8,8 @@ import (
 	common "github.com/tb0hdan/torpedo_common"
 	"github.com/tb0hdan/torpedo_registry"
 	
-	"github.com/shkh/lastfm-go/lastfm"
+	// "github.com/shkh/lastfm-go/lastfm"
+	"github.com/tb0hdan/lastfm-go/lastfm"
 )
 
 var (
